@@ -1,0 +1,3 @@
+[submodule "public/js/libs/DD_belatedPNG"]
+	path = public/js/libs/DD_belatedPNG
+	url = git://github.com/plus2/DD_belatedPNG.git

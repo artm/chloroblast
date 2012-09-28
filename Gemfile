@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'haml'
 
 group :development do
   gem 'guard'
@@ -9,6 +10,7 @@ group :development do
   gem 'guard-livereload'
   gem 'rack-livereload'
   gem 'sinatra-reloader'
+  gem 'guard-bundler'
 end
 
 

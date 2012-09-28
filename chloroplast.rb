@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'sinatra'
 require 'coffee-script'
+require 'json'
 
 if development?
   require 'rack-livereload'
@@ -28,4 +29,8 @@ end
 
 get '/js/chloroplast.js' do
   coffee :chloroplast
+end
+
+post '/api' do
+  JSON.dump( { name: 'chloroplast', version: 0 } )
 end

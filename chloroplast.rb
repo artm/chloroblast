@@ -2,5 +2,5 @@
 require 'sinatra'
 
 get '/' do
-  'chloroplast'
+  redirect to('/index.html')
 end

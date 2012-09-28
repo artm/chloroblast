@@ -13,6 +13,10 @@ get '/' do
   haml :index
 end
 
+get '/css/style.css' do
+  sass :style
+end
+
 helpers do
   def title ; 'Chloroplast' end
   def page_classes ; 'page' end

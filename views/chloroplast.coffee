@@ -1,12 +1,22 @@
+# keep the editor as large as possible
+$(window).resize ->
+  $("#source").height( $("#buttons").position().top - 1 )
+$(window).resize()
+
+# prepare paper
 paper.install(window)
 paper.setup('canvas')
 
+# initial editor content
 $("#source").attr("value","# chloroplast \n
 r = Math.random \n
 @project.activeLayer.removeChildren() \n
 p = new Path.Circle(new Point(500*r(),200*r()), 10+90*r()) \n
 @view.onFrame = (e) -> \n
   p.fillColor = new RgbColor( r(), r(), r())")
+
+$('#new').click ->
+  $("#source").attr("value", "# chloroplast")
 
 $('#run').click ->
   source = $('#source').attr("value")
@@ -19,11 +29,3 @@ $('#run').click ->
   catch error
     console.log "ERROR: " + error.message
 
-$('#new').click ->
-  $("#source").attr("value", "# chloroplast")
-
-$(window).resize ->
-  $("#source").height( $("#buttons").position().top - 1 )
-
-$(document).ready ->
-  $(window).resize()

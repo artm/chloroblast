@@ -1,21 +1,29 @@
-$(document).ready ->
-  paper.install(window)
-  $("#script").attr("value","
-p = new Path.Circle(new Point(500,200), 50)    \n
-@view.onFrame = (e) ->                         \n
-  p.fillColor = new RgbColor( Math.random(),   \n
-                              Math.random(),   \n
-                              Math.random())   \n
-    ")
+paper.install(window)
+paper.setup('canvas')
 
+$("#source").attr("value","# chloroplast \n
+r = Math.random \n
+@project.activeLayer.removeChildren() \n
+p = new Path.Circle(new Point(500*r(),200*r()), 10+90*r()) \n
+@view.onFrame = (e) -> \n
+  p.fillColor = new RgbColor( r(), r(), r())")
 
 $('#run').click ->
-  script = $('#script').attr("value")
+  source = $('#source').attr("value")
   # now, make a function of that and call it with this=paper
-  script = ("  " + line for line in script.split('\n')).join('\n')
-  script = "(->\n#{ script }\n).call(paper)"
+  source = ("  " + line for line in source.split('\n')).join('\n')
+  source = "(->\n#{ source }\n).call(paper)"
   try
-    js = CoffeeScript.compile script
+    js = CoffeeScript.compile source
     eval js
   catch error
     console.log "ERROR: " + error.message
+
+$('#new').click ->
+  $("#source").attr("value", "# chloroplast")
+
+$(window).resize ->
+  $("#source").height( $("#buttons").position().top - 1 )
+
+$(document).ready ->
+  $(window).resize()

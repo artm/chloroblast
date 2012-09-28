@@ -1,4 +1,14 @@
-#ui
-  %textarea#script{placeholder: 'your script here...'}
-  %input#run{type: 'button', value: 'run'}
+%textarea#source{placeholder: 'your script here...'}
+
+#buttons
+  %input#run{type: 'button', value: 'execute'}
+  %input#new{type: 'button', value: 'reset'}
+  %input#commit{type: 'button', value: 'proud!'}
+  %select#script
+    %option{value: 'chloroplast'}
+      chloroplast
+  %select#version
+    %option{value: '0'}
+      0
+
 %canvas#canvas{ resize: true }

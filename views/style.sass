@@ -3,7 +3,6 @@
   padding: 0
 
 #canvas
-  //background: black
   display: block
   position: fixed
   top: 0
@@ -12,21 +11,21 @@
 
 $ui_text_color: rgba(0,0,0,0.6)
 
-textarea
-  z-index: 1
+textarea#source
   font:
     family: monospace
-  width: 40em
+    size: 9pt
   display: block
+  width: 100%
+  resize: none
+  box-sizing: border-box
+  background: rgba(0,0,0,0.0)
+  border: none
+  padding: 2px
+  color: $ui_text_color
+  position: fixed
 
-#script
-  height: 25ex
-
-#ui
-  margin: 3px
-  textarea
-    background: rgba(0,0,0,0.0)
-    border: none
-    padding: 2px
-    color: $ui_text_color
-
+#buttons
+  position: fixed
+  bottom: 0px
+  padding: 3px

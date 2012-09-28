@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'sinatra'
+require 'coffee-script'
 
 if development?
   require 'rack-livereload'
@@ -7,7 +8,15 @@ if development?
   use Rack::LiveReload
 end
 
-set :haml, :format => :html5
+set :haml, format: :html5
+set :haml, locals: {
+  title: 'Chloroplast',
+  modernizr_url: 'js/libs/modernizr.custom.21789.js',
+  jquery_cdn_url: '//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js',
+  jquery_local_url: 'js/libs/jquery-1.8.2.min.js',
+  paper_url: 'js/libs/paper.js',
+  coffeescript_url: 'js/libs/coffee-script-1.3.3.min.js',
+}
 
 get '/' do
   haml :index
@@ -17,14 +26,6 @@ get '/css/style.css' do
   sass :style
 end
 
-helpers do
-  def title ; 'Chloroplast' end
-  def page_classes ; 'page' end
-  def jquery_version ; '1.8.2' end
-  def jquery_cdn_url
-    "//ajax.googleapis.com/ajax/libs/jquery/#{jquery_version}/jquery.min.js"
-  end
-  def jquery_local_url ; "js/libs/jquery-#{jquery_version}.min.js" end
-  def modernizr_url ; 'js/libs/modernizr.custom.21789.js' end
+get '/js/chloroplast.js' do
+  coffee :chloroplast
 end
-

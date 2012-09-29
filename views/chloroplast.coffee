@@ -18,13 +18,20 @@ p = new Path.Circle(new Point(500*r(),200*r()), 10+90*r()) \n
 $('#new').click ->
   $("#source").attr("value", "# chloroplast")
 
+commit_ok = (data) ->
+  options = $('#script').get(0).options
+  unless options.namedItem(data.name)
+    $('#script')
+      .append("<option name='#{data.name}' selected='selected'>#{data.name}</option>")
+  else
+    $("#script").val(data.name)
+
 $('#commit').click ->
   ($.post '/api',
-         script: $("#source").attr("value")
-         (data) -> console.log(data),
-         'json')
+          { script: $("#source").attr("value") },
+          commit_ok,
+          'json')
     .error (jqXHR, textStatus, errorThrown) ->
-      console.log("Error: " + textStatus)
       console.log("  " + errorThrown)
 
 $('#run').click ->

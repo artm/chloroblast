@@ -2,6 +2,7 @@
 require 'sinatra'
 require 'coffee-script'
 require 'json'
+require_relative 'lib/scriptmanager'
 
 if development?
   require 'rack-livereload'
@@ -31,6 +32,9 @@ get '/js/chloroplast.js' do
   coffee :chloroplast
 end
 
+sm = ScriptManager.new "scripts"
+
 post '/api' do
-  JSON.dump( { name: 'chloroplast', version: 0 } )
+  name = sm.save( params[:script] )
+  JSON.dump( { name: name } )
 end

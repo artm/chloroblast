@@ -15,6 +15,9 @@ group :development do
   gem 'rack-livereload'
   gem 'sinatra-reloader'
   gem 'guard-bundler'
+  gem 'rspec'
+  gem 'guard-rspec'
+  gem 'growl'
 end
 
 

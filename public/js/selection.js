@@ -1,5 +1,5 @@
-# This code comes from
-# http://stackoverflow.com/questions/401593/understanding-what-goes-on-with-textarea-selection-with-javascript
+// This code comes from
+// http://stackoverflow.com/questions/401593/understanding-what-goes-on-with-textarea-selection-with-javascript
 (function ($) {
   $.fn.get_selection = function () {
     var e = this.get(0);

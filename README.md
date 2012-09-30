@@ -11,4 +11,6 @@ A [live coding][lc] environment using [CoffeeScript][cs] and
 TODO
 ====
 
-- tiny console area to see the output
+- keys for run, proud, and reload
+- can I override tab to insert spaces in the editor?
+

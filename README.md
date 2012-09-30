@@ -11,6 +11,4 @@ A [live coding][lc] environment using [CoffeeScript][cs] and
 TODO
 ====
 
-- is JSON.dump necessary?
 - tiny console area to see the output
-

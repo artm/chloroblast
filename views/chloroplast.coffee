@@ -17,6 +17,12 @@ select_script = (name, insert) ->
   else
     $('#script').val("__null__")
 
+set_source = (text) ->
+  $("#source").val( text )
+  m = /^((\s*#\s*).*)(\n|$)/.exec(text)
+  if m
+    $("#source").set_selection( m[2].length, m[1].length )
+
 # AJAX callbacks
 commit_ok = (data) ->
   select_script data.name, true
@@ -35,7 +41,7 @@ receive_script_list = (data) ->
   select_script last_selection, false
 
 receive_script = (data) ->
-  $("#source").val( data )
+  set_source( data )
 
 request_script_list = ->
   jqx = $.getJSON '/api/script_list', null, receive_script_list
@@ -68,7 +74,7 @@ $('#list').click request_script_list
 $('#script').change ->
   name = $('#script').val()
   if (name == "__null__")
-    $("#source").val("# chloroblast")
+    set_source("# chloroblast")
   else
     $.ajax({
       url: "/scripts/#{name}",
@@ -79,3 +85,4 @@ $('#script').change ->
     })
 
 request_script_list()
+$('#script').change()

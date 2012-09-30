@@ -2,7 +2,7 @@ require 'scriptmanager'
 
 describe ScriptManager do
   before do
-    Dir.stub(:glob) { ["a.coffee", "b.coffee", "c.coffee", "README.md"] }
+    Dir.stub(:glob) { ["foo/a.coffee", "foo/b.coffee", "foo/c.coffee", "foo/README.md"] }
     @sm = ScriptManager.new "foo"
   end
   it 'collects coffee scripts' do

@@ -2,7 +2,7 @@ class ScriptManager
   attr_reader :scripts
   def initialize(path)
     @scripts = Set.new(Dir.glob("#{path}/*.coffee").
-                       map{|x| /(.+?)\.coffee$/.match(x) && $1}.
+                       map{|x| %r{([^/]+?)\.coffee$}.match(x) && $1}.
                        select{|x| x})
     @path = path
   end

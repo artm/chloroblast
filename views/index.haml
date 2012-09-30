@@ -2,10 +2,13 @@
   \# chloroblast
 
 #buttons
-  %input#run{type: 'button', value: ' ⇗ ', title: 'Evaluate the script'}
-  %input#commit{type: 'button', value: ' ! ', title: "Proud of myself!"}
+  %a.button#run{href: '#', title: 'Evaluate the script'}
+    ⇗
+  %a.button#commit{href: '#', title: "Proud of myself!"}
+    !
   %select#script{title: 'Saved scripts'}
     %option{value: '__null__'}
-  %input#list{type: 'button', value: '↺', title: "Reload script list"}
+  %a.button#list{href: '#', title: "Reload script list"}
+    ↺
 
 %canvas#canvas{ resize: true }

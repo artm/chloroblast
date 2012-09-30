@@ -1,12 +1,3 @@
-# keep the editor as large as possible
-$(window).resize ->
-  $("#source").height( $("#buttons").position().top - 1 )
-$(window).resize()
-
-# prepare paper
-paper.install(window)
-paper.setup('canvas')
-
 select_script = (name, insert) ->
   opt = $("#script option[value='#{ name }']")
   if opt.length > 0
@@ -83,6 +74,34 @@ $('#script').change ->
       dataType: 'text',
       success: receive_script
     })
+
+simClick = (button) ->
+  $(button).addClass('pressed')
+  setTimeout("$('#{button}').removeClass('pressed').click()", 200)
+
+$("body").keyup (e) ->
+  #  console.log e
+  if e.ctrlKey
+    switch e.which
+      when 82
+        # Ctrl+R
+        simClick '#run'
+        e.preventDefault()
+      when 83
+        # Ctrl+S
+        simClick '#commit'
+        e.preventDefault()
+      else
+        console.log e.which
+
+# startup sequence
+# keep the editor as large as possible
+$(window).resize -> $("#source").height( $("#buttons").position().top - 1 )
+$(window).resize()
+
+# prepare paper
+paper.install(window)
+paper.setup('canvas')
 
 request_script_list()
 $('#script').change()

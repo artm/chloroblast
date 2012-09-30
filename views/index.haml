@@ -2,10 +2,10 @@
   \# chloroblast
 
 #buttons
-  %input#run{type: 'button', value: 'run'}
-  %input#commit{type: 'button', value: 'proud!'}
-  %select#script
+  %input#run{type: 'button', value: ' ⇗ ', title: 'Evaluate the script'}
+  %input#commit{type: 'button', value: ' ! ', title: "Proud of myself!"}
+  %select#script{title: 'Saved scripts'}
     %option{value: '__null__'}
-  %input#list{type: 'button', value: '↺'}
+  %input#list{type: 'button', value: '↺', title: "Reload script list"}
 
 %canvas#canvas{ resize: true }

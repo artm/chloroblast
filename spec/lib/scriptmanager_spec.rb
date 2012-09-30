@@ -30,4 +30,8 @@ describe ScriptManager do
     name = @sm.save "# script \nfoo ->\n  bar"
     name.should == "script"
   end
+
+  it 'makes script path from name' do
+    @sm.path("bar").should == "foo/bar.coffee"
+  end
 end

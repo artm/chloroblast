@@ -44,6 +44,5 @@ get '/api/script_list' do
 end
 
 get '/scripts/:name' do
-  fname = "scripts/#{params[:name]}.coffee"
-  send_file fname
+  send_file sm.path params[:name]
 end

@@ -1,6 +1,8 @@
 *
+  border: 0
   margin: 0
   padding: 0
+  border: none
 
 #canvas
   display: block
@@ -25,10 +27,24 @@ textarea#source
   color: $ui_text_color
   position: fixed
 
-.button
+select
+  -webkit-appearance: none
+  padding:
+    left: 1ex
+    right: 1ex
+  text-align: center
+  option
+    text-align: center
+
+.button, select
   display: inline-block
+  box-sizing: border-box
+  height: 3ex
+  font-size: 10pt
+  text-align: center
   text-decoration: none
   color: #555
+  text-shadow: 0 2px 0 #fff
   border: 1px solid #dedede
   -webkit-border-radius: 3px
   -moz-border-radius: 3px
@@ -37,7 +53,6 @@ textarea#source
   background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#f0f0f0))
   background: -moz-linear-gradient(top,  #f9f9f9, #f0f0f0)
   border-color: #dedede #d8d8d8 #d3d3d3
-  text-shadow: 0 1px 0 #fff
 .button:hover
   background: #f4f4f4
   background: -webkit-gradient(linear, left top, left bottom, from(#efefef), to(#f8f8f8))
@@ -59,5 +74,4 @@ textarea#source
     vertical-align: middle
   .button
     width: 1.5em
-    text-align: center
 

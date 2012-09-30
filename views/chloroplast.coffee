@@ -7,35 +7,53 @@ $(window).resize()
 paper.install(window)
 paper.setup('canvas')
 
-# initial editor content
-$("#source").attr("value","# chloroplast \n
-r = Math.random \n
-@project.activeLayer.removeChildren() \n
-p = new Path.Circle(new Point(500*r(),200*r()), 10+90*r()) \n
-@view.onFrame = (e) -> \n
-  p.fillColor = new RgbColor( r(), r(), r())")
-
-$('#new').click ->
-  $("#source").attr("value", "# chloroplast")
-
-commit_ok = (data) ->
-  options = $('#script').get(0).options
-  unless options.namedItem(data.name)
-    $('#script')
-      .append("<option name='#{data.name}' selected='selected'>#{data.name}</option>")
+select_script = (name, insert) ->
+  opt = $("#script option[value='#{ name }']")
+  if opt.length > 0
+    opt.get(0).selected = true
+  else if insert
+    # insert just before the __null__
+    $('#script option:last').before( $(new Option(name, name, true, true)) )
   else
-    $("#script").val(data.name)
+    $('#script').val("__null__")
 
+# AJAX callbacks
+commit_ok = (data) ->
+  select_script data.name, true
+
+receive_script_list = (data) ->
+  # remember what was selected
+  sel = $('#script')
+  last_selection = sel.val()
+  # repopulate the selector
+  elt = sel.get(0)
+  while elt.options && elt.options.length
+    elt.remove(0)
+  elt.add( new Option(name,name) ) for name in data.script_list
+  elt.add( new Option("", "__null__") )
+  # select last selected option if present
+  select_script last_selection, false
+
+receive_script = (data) ->
+  $("#source").val( data )
+
+request_script_list = ->
+  jqx = $.getJSON '/api/script_list', null, receive_script_list
+  jqx.error (jqx, status, message) ->
+    console.log "ERROR: #{message}"
+
+# GUI event handlers
 $('#commit').click ->
+  text = $("#source").val()
   ($.post '/api',
-          { script: $("#source").attr("value") },
+          { script: text },
           commit_ok,
           'json')
     .error (jqXHR, textStatus, errorThrown) ->
-      console.log("  " + errorThrown)
+      console.log "ERROR: #{errorThrown}"
 
 $('#run').click ->
-  source = $('#source').attr("value")
+  source = $('#source').val()
   # now, make a function of that and call it with this=paper
   source = ("  " + line for line in source.split('\n')).join('\n')
   source = "(->\n#{ source }\n).call(paper)"
@@ -43,5 +61,21 @@ $('#run').click ->
     js = CoffeeScript.compile source
     eval js
   catch error
-    console.log "ERROR: " + error.message
+    console.log "ERROR: #{error.message}"
 
+$('#list').click request_script_list
+
+$('#script').change ->
+  name = $('#script').val()
+  if (name == "__null__")
+    $("#source").val("# chloroblast")
+  else
+    $.ajax({
+      url: "/scripts/#{name}",
+      cache: false,
+      async: false,
+      dataType: 'text',
+      success: receive_script
+    })
+
+request_script_list()

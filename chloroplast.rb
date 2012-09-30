@@ -38,3 +38,12 @@ post '/api' do
   name = sm.save( params[:script] )
   JSON.dump( { name: name } )
 end
+
+get '/api/script_list' do
+  JSON.dump( { script_list: sm.scripts.to_a } )
+end
+
+get '/scripts/:name' do
+  fname = "scripts/#{params[:name]}.coffee"
+  send_file fname
+end

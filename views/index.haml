@@ -1,11 +1,11 @@
 %textarea#source{placeholder: 'your script here...'}
+  \# chloroblast
 
 #buttons
-  %input#run{type: 'button', value: 'execute'}
-  %input#new{type: 'button', value: 'reset'}
+  %input#run{type: 'button', value: 'run'}
   %input#commit{type: 'button', value: 'proud!'}
   %select#script
-    %option{name: 'chloroplast'}
-      chloroplast
+    %option{value: '__null__'}
+  %input#list{type: 'button', value: '↺'}
 
 %canvas#canvas{ resize: true }

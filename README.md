@@ -11,7 +11,6 @@ A [live coding][lc] environment using [CoffeeScript][cs] and
 TODO
 ====
 
-- don't cache the script list in the server
 - is JSON.dump necessary?
 - tiny console area to see the output
 

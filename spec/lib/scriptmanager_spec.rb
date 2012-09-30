@@ -29,6 +29,5 @@ describe ScriptManager do
     File.stub(:open)
     name = @sm.save "# script \nfoo ->\n  bar"
     name.should == "script"
-    @sm.scripts.should include "script"
   end
 end

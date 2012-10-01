@@ -109,6 +109,48 @@ $("body").keydown (e) ->
         nodef = false
     e.preventDefault() if nodef
 
+tabWidth = 2
+oneShiftRe = new RegExp("^ {1,#{tabWidth}}")
+String.prototype.repeat = (n) -> (this for i in [1..n]).join("")
+
+# editor enhancements
+$('#source').keydown (e) ->
+  area = $(@)
+  if e.which == 9 && !(e.ctrlKey || e.altKey || e.metaKey)
+    # Tab
+    e.preventDefault()
+    [line,col] = area.caretLineAndCol()
+    if area.hasSelection()
+      # shift selection
+      sel = area.get_selection()
+      trail = (/\n$/.exec(sel.text) || [""])[0].length
+      if col > 0 || trail > 0
+        sel = area.set_selection( sel.start - col, sel.end - trail )
+      ins = ' '.repeat(tabWidth)
+      lines = (l for l in sel.text.split('\n'))
+      text =
+        (if e.shiftKey
+          ( l.replace(oneShiftRe, '') for l in lines )
+        else
+          ( ins + l for l in lines )
+        ).join('\n')
+      area.replace_selection( text )
+    else
+      # shift current line
+      lead = /^\s*/.exec(line)[0]
+      if col < lead.length
+        delta = lead.length-col
+        area.caret( area.caret() + delta )
+        col += delta
+      if e.shiftKey
+        rem_count = lead.length % tabWidth || tabWidth
+        area.removeAt( area.caret() - col, rem_count )
+      else
+        # now we can insert as many spaces as necessary
+        ins_count = tabWidth - lead.length % tabWidth
+        ins = ' '.repeat(ins_count)
+        area.insertAt( area.caret() - col, ins );
+
 $('#clear-log').click ->
   $('#log').children().remove()
 

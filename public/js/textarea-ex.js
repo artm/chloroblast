@@ -10,7 +10,7 @@
     var e = this.get(0);
     var pos = e.selectionStart;
     var text = e.value;
-    var lineStart = text.lastIndexOf('\n', pos) + 1;
+    var lineStart = text.lastIndexOf('\n', pos - 1) + 1;
     var lineEnd = text.indexOf('\n', pos);
     var line = lineEnd >= lineStart ? text.slice(lineStart, lineEnd) : text.slice(lineStart);
     return [line, pos-lineStart];

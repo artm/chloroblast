@@ -161,7 +161,18 @@ $('#source').keydown (e) ->
     if (col >= lead.length)
       e.preventDefault()
       area.insertAt( area.caret(), '\n' + lead )
-
+  if e.which == 8 && !(e.ctrlKey ||
+                       e.altKey ||
+                       e.metaKey ||
+                       e.shiftKey ||
+                       area.hasSelection())
+    # Backspace
+    [line, col] = area.caretLineAndCol()
+    lead = /^\s*/.exec(line)[0]
+    if (col <= lead.length)
+      e.preventDefault()
+      rem_count = col % tabWidth || tabWidth
+      area.removeAt( area.caret() - rem_count, rem_count )
 
 $('#clear-log').click ->
   $('#log').children().remove()

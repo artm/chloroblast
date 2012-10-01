@@ -1,14 +1,18 @@
-%textarea#source{placeholder: 'your script here...'}
-  \# chloroblast
+#ui
+  #text-ui
+    %textarea#source{placeholder: 'your script here...'}
+      \# chloroblast
+    #log
+      here be log
 
-#buttons
-  %a.button#run{href: '#', title: 'Evaluate the script'}
-    ⇗
-  %a.button#commit{href: '#', title: "Proud of myself!"}
-    !
-  %select#script{title: 'Saved scripts'}
-    %option{value: '__null__'}
-  %a.button#list{href: '#', title: "Reload script list"}
-    ↺
+  #buttons
+    %a.button#run{href: '#', title: 'Evaluate the script'}
+      ⇗
+    %a.button#commit{href: '#', title: "Proud of myself!"}
+      !
+    %select#script{title: 'Saved scripts'}
+      %option{value: '__null__'}
+    %a.button#list{href: '#', title: "Reload script list"}
+      ↺
 
 %canvas#canvas{ resize: true }

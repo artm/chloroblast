@@ -79,24 +79,33 @@ simClick = (button) ->
   $(button).addClass('pressed')
   setTimeout("$('#{button}').removeClass('pressed').click()", 200)
 
-$("body").keyup (e) ->
+$("body").keydown (e) ->
   #  console.log e
   if e.ctrlKey
+    nodef = true
     switch e.which
       when 82
         # Ctrl+R
         simClick '#run'
-        e.preventDefault()
       when 83
         # Ctrl+S
         simClick '#commit'
+      when 72
+        # Ctrl+H
+        $('#ui').fadeToggle(500)
         e.preventDefault()
       else
+        nodef = false
         console.log e.which
+    e.preventDefault() if nodef
 
 # startup sequence
 # keep the editor as large as possible
-$(window).resize -> $("#source").height( $("#buttons").position().top - 1 )
+$(window).resize ->
+  h = $("#buttons").position().top - 1
+  $("#text-ui")
+    .children()
+    .height( h )
 $(window).resize()
 
 # prepare paper

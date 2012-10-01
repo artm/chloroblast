@@ -169,7 +169,7 @@ $('#source').keydown (e) ->
     # Backspace
     [line, col] = area.caretLineAndCol()
     lead = /^\s*/.exec(line)[0]
-    if (col <= lead.length)
+    if (lead.length > 0 && col <= lead.length)
       e.preventDefault()
       rem_count = col % tabWidth || tabWidth
       area.removeAt( area.caret() - rem_count, rem_count )

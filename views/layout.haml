@@ -12,9 +12,7 @@
   %script{ src: modernizr_url }
 %body
   = yield
-  %script{ src: jquery_cdn_url }
-  %script
-    window.jQuery || document.write("<script src='#{jquery_local_url}'>\x3C/script>")
+  %script{ src: jquery_local_url }
   /[if lt IE 7]
     %script{ src: '/js/libs/DD_belatedPNG/DD_belatedPNG_0.0.8a-min.js' }
     %script
@@ -22,5 +20,6 @@
   %script{ src: paper_url }
   %script{ src: coffeescript_url }
   %script{ type: 'text/paperscript', canvas: 'canvas' }
+  %script{ src: 'js/libs/jquery.mousewheel.js' }
   %script{ src: 'js/selection.js' }
   %script{ src: 'js/chloroplast.js' }

@@ -12,7 +12,7 @@ end
 
 set :haml, format: :html5
 set :haml, locals: {
-  title: 'Chloroplast',
+  title: 'Chloroblast',
   modernizr_url: 'js/libs/modernizr.custom.21789.js',
   jquery_cdn_url: '//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js',
   jquery_local_url: 'js/libs/jquery-1.8.2.min.js',
@@ -28,8 +28,8 @@ get '/css/style.css' do
   sass :style
 end
 
-get '/js/chloroplast.js' do
-  coffee :chloroplast
+get '/js/chloroblast.js' do
+  coffee :chloroblast
 end
 
 sm = ScriptManager.new "scripts"

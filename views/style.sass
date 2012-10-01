@@ -35,12 +35,6 @@ $ui_text_color: rgba(0,0,0,0.6)
   padding: 2px
   color: $ui_text_color
 
-#log
-  display: inline-block
-  width: 33%
-  border-left: thin solid #eee
-  padding-left: 1em
-
 select
   -webkit-appearance: none
   padding:
@@ -89,3 +83,21 @@ select
   .button
     width: 1.5em
 
+#log-container
+  border-left: thin solid #eee
+  display: inline-block
+  overflow-y: hidden
+  width: 33%
+
+#log
+  padding-left: 1em
+  *
+    white-space: pre
+  .error
+    background: rgba(255,0,0,0.3)
+    color: white
+  .warn
+    background: rgba(255,127,0,0.3)
+    color: white
+  .debug
+    color: #7c7

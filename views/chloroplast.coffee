@@ -14,7 +14,7 @@ set_source = (text) ->
   if m
     $("#source").set_selection( m[2].length, m[1].length )
 
-# AJAX callbacks
+# AJAX methods and callbacks
 commit_ok = (data) ->
   select_script data.name, true
 
@@ -34,10 +34,22 @@ receive_script_list = (data) ->
 receive_script = (data) ->
   set_source( data )
 
-request_script_list = ->
+request_script_list = (autoload_script) ->
   jqx = $.getJSON '/api/script_list', null, receive_script_list
   jqx.error (jqx, status, message) ->
-    console.log "ERROR: #{message}"
+    console.error message
+  if autoload_script
+    jqx.success ->
+      $('#script').val(autoload_script).change()
+
+request_script = (script_name) ->
+  $.ajax({
+    url: "/scripts/#{script_name}",
+    cache: false,
+    async: false,
+    dataType: 'text',
+    success: receive_script
+  })
 
 # GUI event handlers
 $('#commit').click ->
@@ -47,7 +59,7 @@ $('#commit').click ->
           commit_ok,
           'json')
     .error (jqXHR, textStatus, errorThrown) ->
-      console.log "ERROR: #{errorThrown}"
+      console.error errorThrown
 
 $('#run').click ->
   source = $('#source').val()
@@ -58,7 +70,7 @@ $('#run').click ->
     js = CoffeeScript.compile source
     eval js
   catch error
-    console.log "ERROR: #{error.message}"
+    console.error error.message
 
 $('#list').click request_script_list
 
@@ -67,20 +79,16 @@ $('#script').change ->
   if (name == "__null__")
     set_source("# chloroblast")
   else
-    $.ajax({
-      url: "/scripts/#{name}",
-      cache: false,
-      async: false,
-      dataType: 'text',
-      success: receive_script
-    })
+    request_script name
 
 simClick = (button) ->
   $(button).addClass('pressed')
   setTimeout("$('#{button}').removeClass('pressed').click()", 200)
 
+log_keys = false
+
 $("body").keydown (e) ->
-  #  console.log e
+  console.log e.which if log_keys
   if e.ctrlKey
     nodef = true
     switch e.which
@@ -93,11 +101,53 @@ $("body").keydown (e) ->
       when 72
         # Ctrl+H
         $('#ui').fadeToggle(500)
-        e.preventDefault()
+      when 75
+        # Ctrl+K
+        log_keys = !log_keys
+        console.info "Key logging ", if log_keys then "on" else "off"
       else
         nodef = false
-        console.log e.which
     e.preventDefault() if nodef
+
+$('#clear-log').click ->
+  $('#log').children().remove()
+
+# logging
+wrap_log_fun = (old_fun, new_fun) ->
+  (args...) ->
+    new_fun args...
+    old_fun.call console, args...
+
+stringify = (x) ->
+  if typeof x == "string"
+    x
+  else
+    try
+      JSON.stringify x, null, 2
+    catch error
+      String x
+
+log_fun = (level) ->
+  ( args... ) ->
+    string = args.map( stringify ).join(" ")
+    log = $('#log')
+    p = log.parent()
+    log.append("<p class='#{level}'>#{string}</p>")
+    lines = log.children()
+    lines.slice(0,-100).remove() if (lines.size() > 150)
+    p.scrollTop( log.height() - p.height() )
+
+$('#log-container').mousewheel (e,d,dx,dy) ->
+  #console.log e,d,dx,dy
+  delta = dy*$('#log').css('font-size').replace('px','')*1.5
+  cont = $('#log-container')
+  cont.scrollTop( cont.scrollTop() - delta )
+
+console.log = wrap_log_fun console.log, log_fun "log"
+console.debug = wrap_log_fun console.debug, log_fun "debug"
+console.info = wrap_log_fun console.info, log_fun "info"
+console.warn = wrap_log_fun console.warn, log_fun "warn"
+console.error = wrap_log_fun console.error, log_fun "error"
 
 # startup sequence
 # keep the editor as large as possible
@@ -112,5 +162,4 @@ $(window).resize()
 paper.install(window)
 paper.setup('canvas')
 
-request_script_list()
-$('#script').change()
+request_script_list('chloroblast')

@@ -2,8 +2,10 @@
   #text-ui
     %textarea#source{placeholder: 'your script here...'}
       \# chloroblast
-    #log
-      here be log
+    #log-container
+      #log
+        %p.info
+          Welcome to chloroblast!
 
   #buttons
     %a.button#run{href: '#', title: 'Evaluate the script'}
@@ -14,5 +16,6 @@
       %option{value: '__null__'}
     %a.button#list{href: '#', title: "Reload script list"}
       ↺
+    %a.button#clear-log{href: '#', title: "Clear log"}
 
 %canvas#canvas{ resize: true }

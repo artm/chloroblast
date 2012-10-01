@@ -150,6 +150,18 @@ $('#source').keydown (e) ->
         ins_count = tabWidth - lead.length % tabWidth
         ins = ' '.repeat(ins_count)
         area.insertAt( area.caret() - col, ins );
+  if e.which == 13 && !(e.ctrlKey ||
+                        e.altKey ||
+                        e.metaKey ||
+                        e.shiftKey ||
+                        area.hasSelection())
+    # Enter
+    [line, col] = area.caretLineAndCol()
+    lead = /^\s*/.exec(line)[0]
+    if (col >= lead.length)
+      e.preventDefault()
+      area.insertAt( area.caret(), '\n' + lead )
+
 
 $('#clear-log').click ->
   $('#log').children().remove()

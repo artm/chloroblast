@@ -116,7 +116,8 @@ String.prototype.repeat = (n) -> (this for i in [1..n]).join("")
 # editor enhancements
 $('#source').keydown (e) ->
   area = $(@)
-  if e.which == 9 && !(e.ctrlKey || e.altKey || e.metaKey)
+  return if e.ctrlKey || e.altKey || e.metaKey
+  if e.which == 9
     # Tab
     e.preventDefault()
     [line,col] = area.caretLineAndCol()
@@ -149,23 +150,17 @@ $('#source').keydown (e) ->
         # now we can insert as many spaces as necessary
         ins_count = tabWidth - lead.length % tabWidth
         ins = ' '.repeat(ins_count)
-        area.insertAt( area.caret() - col, ins );
-  if e.which == 13 && !(e.ctrlKey ||
-                        e.altKey ||
-                        e.metaKey ||
-                        e.shiftKey ||
-                        area.hasSelection())
+        area.insertAt( area.caret() - col, ins )
+  # the rest don't deal with shift or selection, so
+  return if e.shiftKey || area.hasSelection()
+  if e.which == 13
     # Enter
     [line, col] = area.caretLineAndCol()
     lead = /^\s*/.exec(line)[0]
     if (col >= lead.length)
       e.preventDefault()
       area.insertAt( area.caret(), '\n' + lead )
-  if e.which == 8 && !(e.ctrlKey ||
-                       e.altKey ||
-                       e.metaKey ||
-                       e.shiftKey ||
-                       area.hasSelection())
+  if e.which == 8
     # Backspace
     [line, col] = area.caretLineAndCol()
     lead = /^\s*/.exec(line)[0]
